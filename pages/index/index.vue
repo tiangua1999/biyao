@@ -224,15 +224,16 @@
 		
 		<view class="guess-section">
 			<view 
-				v-for="(item, index) in goodsList" :key="index"
+				v-for="(item, index) in arr1" :key="index"
 				class="guess-item"
-				@click="navToDetailPage(item)"
+				@click="navToDetailPage(item.Id)"
 			>
 				<view class="image-wrapper">
-					<image :src="item.image" mode="aspectFill"></image>
+					<image :src="item.imageUrl" mode="aspectFill"></image>
 				</view>
+				<text class="price">￥{{item.priceStr}}</text>
 				<text class="title clamp">{{item.title}}</text>
-				<text class="price">￥{{item.price}}</text>
+
 			</view>
 		</view>
 		
@@ -241,7 +242,7 @@
 </template>
 
 <script>
-	const { getlist } = require('../../apis/apis')
+	const { getlist,getdetail } = require('../../apis/apis')
 	export default {
 	
 
@@ -251,7 +252,8 @@
 				swiperCurrent: 0,
 				swiperLength: 0,
 				carouselList: [],
-				goodsList: []
+				goodsList: [],
+				arr1:[]
 			};
 		},
 
@@ -274,7 +276,9 @@
 				this.goodsList = goodsList || [];
 				
 				let list = await getlist()
-				console.log(list);
+				// console.log(list);
+				this.arr1 = list.data
+				console.log(this.arr1);
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
@@ -285,9 +289,9 @@
 			//详情页
 			navToDetailPage(item) {
 				//测试数据没有写id，用title代替
-				let id = item.title;
+				console.log(item);
 				uni.navigateTo({
-					url: `/pages/product/product?id=${id}`
+					url: `/pages/product/product?goodId=${item}`
 				})
 			},
 		},

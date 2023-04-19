@@ -2,9 +2,10 @@ const axios = require('./axios')
 
 const baseUrl = "http://47.113.230.184:9527"
 
-export function getlist(){
+export function getlist(data){
 	return axios({
-		url:baseUrl + '/api/goodList'
+		url:baseUrl + '/api/hotList',
+		data:data
 	})
 }
 
