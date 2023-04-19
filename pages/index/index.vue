@@ -241,8 +241,9 @@
 </template>
 
 <script>
-
+	const { getlist } = require('../../apis/apis')
 	export default {
+	
 
 		data() {
 			return {
@@ -258,6 +259,7 @@
 			this.loadData();
 		},
 		methods: {
+			
 			/**
 			 * 请求静态数据只是为了代码不那么乱
 			 * 分次请求未作整合
@@ -270,6 +272,9 @@
 				
 				let goodsList = await this.$api.json('goodsList');
 				this.goodsList = goodsList || [];
+				
+				let list = await getlist()
+				console.log(list);
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
