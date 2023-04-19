@@ -7,17 +7,17 @@
 		<view class="wrapper">
 			<view class="left-top-sign">LOGIN</view>
 			<view class="welcome">
-				欢迎回来！
+				欢迎注册
 			</view>
 			<view class="input-content">
 				<view class="input-item">
 					<text class="tit">账号</text>
 					<input 
 						
-						:value="userName" 
+						:value="username" 
 						placeholder="请输入用户名称"
 						
-						data-key="userName"
+						data-key="username"
 						@input="inputChange"
 					/>
 				</view>
@@ -36,15 +36,10 @@
 					/>
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录</button>
-			<view class="forget-section">
-				忘记密码?
-			</view>
+			<button class="confirm-btn" @click="Login" :disabled="logining">注册</button>
+			
 		</view>
-		<view class="register-section">
-			还没有账号?
-			<text @click="toRegist">马上注册</text>
-		</view>
+		
 	</view>
 </template>
 
@@ -52,12 +47,12 @@
 	import {  
         mapMutations  
     } from 'vuex';
-	import {getlogin} from '../../apis/apis.js'
+	import {getregister} from '../../apis/apis.js'
 	
 	export default{
 		data(){
 			return {
-				userName: '',
+				username: '',
 				password: '',
 				logining: false
 			}
@@ -75,13 +70,11 @@
 				uni.navigateBack();
 			},
 			toRegist(){
-				uni.navigateTo({
-					url:'/pages/zhuce/index'
-				})
+				this.$api.msg('去注册');
 			},
-			async toLogin(){
+			async Login(){
 				this.logining = true;
-				const {userName, password} = this;
+				const {username, password} = this;
 				/* 数据验证模块
 				if(!this.$api.match({
 					mobile,
@@ -92,22 +85,16 @@
 				}
 				*/
 				const sendData = {
-					userName,
+					username,
 					password
 				};
 				console.log(sendData);
 				
-				let res = await getlogin(sendData)
+				let res = await getregister(sendData)
 				console.log(res);
-				// const result = await this.$api.json('userInfo');
-				// console.log(result);
-				if(res.data.code== 1){
-					this.login(res.data);
-                    uni.navigateBack();  
-				}else{
-					
-					this.logining = false;
-				}
+				// if(res.data.code==1){
+				// 	uni.navigateBack()
+				// }
 			}
 		},
 

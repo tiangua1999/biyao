@@ -76,7 +76,18 @@
 					"animationType": "slide-in-bottom"
 				}
 			}
-		}, {
+		},
+		{
+			"path": "pages/zhuce/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		},{
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "我的",

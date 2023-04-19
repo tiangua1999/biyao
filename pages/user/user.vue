@@ -8,7 +8,7 @@
 					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"></image>
 				</view>
 				<view class="info-box">
-					<text class="username">{{userInfo.nickname || '游客'}}</text>
+					<text class="username">{{userInfo.userName || '游客'}}</text>
 				</view>
 			</view>
 			<view class="vip-card-box">

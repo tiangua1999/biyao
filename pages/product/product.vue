@@ -87,7 +87,7 @@
 
 			<view class="action-btn-group">
 				<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
-				<button type="primary" class=" action-btn no-border add-cart-btn">加入购物车</button>
+				<button type="primary" @click="goCar(arr1.Id)" class=" action-btn no-border add-cart-btn">加入购物车</button>
 			</view>
 		</view>
 
@@ -131,9 +131,12 @@
 </template>
 
 <script>
+	import {
+	    mapState 
+	} from 'vuex';
 	import share from '@/components/share';
 	const {
-		getdetail
+		getdetail,getadd
 	} = require("../../apis/apis")
 	export default {
 		components: {
@@ -177,6 +180,9 @@
 				]
 			};
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
 		async onLoad(options) {
 
 			this.godetail(options)
@@ -204,6 +210,16 @@
 				this.arr4 = JSON.parse(this.arr1.description)
 				this.arr5 = JSON.parse(this.arr1.descriptionImage)
 
+			},
+			async goCar(a){
+				console.log(a);
+				let data = {
+					goodId : a,
+					token : this.userInfo.token
+				}
+				console.log(data);
+				let res = await getadd(data)
+				console.log(res);
 			},
 			//规格弹窗开关
 			toggleSpec() {

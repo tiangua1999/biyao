@@ -15,13 +15,13 @@
 		<view v-else>
 			<!-- 列表 -->
 			<view class="cart-list">
-				<block v-for="(item, index) in cartList" :key="item.id">
+				<block v-for="(item, index) in cartList" :key="item.Id">
 					<view
 						class="cart-item" 
 						:class="{'b-b': index!==cartList.length-1}"
 					>
 						<view class="image-wrapper">
-							<image :src="item.image" 
+							<image :src="item.imageUrl" 
 								:class="[item.loaded]"
 								mode="aspectFill" 
 								lazy-load 
@@ -36,15 +36,15 @@
 						</view>
 						<view class="item-right">
 							<text class="clamp title">{{item.title}}</text>
-							<text class="attr">{{item.attr_val}}</text>
-							<text class="price">¥{{item.price}}</text>
+							<text class="attr">{{item.supplier}}</text>
+							<text class="price">¥{{item.priceStr}}</text>
 							<uni-number-box 
 								class="step"
 								:min="1" 
-								:max="item.stock"
-								:value="item.number>item.stock?item.stock:item.number"
-								:isMax="item.number>=item.stock?true:false"
-								:isMin="item.number===1"
+								:max="Number(item.leadTime)"
+								:value="item.count>item.leadTime?item.leadTime:item.count"
+								:isMax="item.count>=item.leadTime?true:false"
+								:isMin="item.count===1"
 								:index="index"
 								@eventChange="numberChange"
 							></uni-number-box>
@@ -84,6 +84,7 @@
 		mapState
 	} from 'vuex';
 	import uniNumberBox from '@/components/uni-number-box.vue'
+	import {getshopList,getdel} from '@/apis/apis.js'
 	export default {
 		components: {
 			uniNumberBox
@@ -109,17 +110,20 @@
 			}
 		},
 		computed:{
-			...mapState(['hasLogin'])
+			...mapState(['hasLogin','userInfo'])
 		},
 		methods: {
 			//请求数据
 			async loadData(){
-				let list = await this.$api.json('cartList'); 
-				let cartList = list.map(item=>{
+				let list = await getshopList({token:this.userInfo.token}); 
+				console.log(list.data);
+				
+				let cartList = list.data.map(item=>{
 					item.checked = true;
 					return item;
 				});
 				this.cartList = cartList;
+			
 				this.calcTotal();  //计算总价
 			},
 			//监听image加载完成
@@ -151,14 +155,23 @@
 			},
 			//数量
 			numberChange(data){
-				this.cartList[data.index].number = data.number;
+				
+				this.cartList[data.index].count = data.number;
 				this.calcTotal();
 			},
 			//删除
-			deleteCartItem(index){
+		async deleteCartItem(index){
+				
 				let list = this.cartList;
 				let row = list[index];
-				let id = row.id;
+				let id = row.Id;
+				
+				let data = {
+					token:this.userInfo.token,
+					goodId:id
+				}
+				let res = await getdel(data)
+				console.log(res);
 
 				this.cartList.splice(index, 1);
 				this.calcTotal();
@@ -185,8 +198,10 @@
 				let total = 0;
 				let checked = true;
 				list.forEach(item=>{
+					
 					if(item.checked === true){
-						total += item.price * item.number;
+						total += parseFloat(item.priceStr)*item.count;
+					
 					}else if(checked === true){
 						checked = false;
 					}
