@@ -14,10 +14,10 @@
 					<text class="tit">账号</text>
 					<input 
 						
-						:value="username" 
+						:value="userName" 
 						placeholder="请输入用户名称"
 						
-						data-key="username"
+						data-key="userName"
 						@input="inputChange"
 					/>
 				</view>
@@ -52,7 +52,7 @@
 	export default{
 		data(){
 			return {
-				username: '',
+				userName: '',
 				password: '',
 				logining: false
 			}
@@ -74,7 +74,7 @@
 			},
 			async Login(){
 				this.logining = true;
-				const {username, password} = this;
+				const {userName, password} = this;
 				/* 数据验证模块
 				if(!this.$api.match({
 					mobile,
@@ -85,16 +85,18 @@
 				}
 				*/
 				const sendData = {
-					username,
+					userName,
 					password
 				};
 				console.log(sendData);
 				
 				let res = await getregister(sendData)
 				console.log(res);
-				// if(res.data.code==1){
-				// 	uni.navigateBack()
-				// }
+				if(res.data.code==1){
+					uni.navigateTo({
+						url:'/pages/public/login'
+					})
+				}
 			}
 		},
 
