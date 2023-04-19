@@ -14,8 +14,6 @@
 			<view class="price-box">
 				<text class="price-tip">¥</text>
 				<text class="price">{{arr1.priceStr}}</text>
-				<!-- <text class="m-price">¥488</text> -->
-				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<text class="supplier">{{arr1.supplier}}</text>
 			<br>
@@ -65,7 +63,7 @@
 					<text class="li_a2">{{ item.text.replace("\n", "") }}</text>
 				</view>
 				<view class="details">
-					<image v-for="item in arr5" :keys="item" :src="item" alt="">
+					<image v-for="item in arr5" :keys="item" :src="item" mode="" style="height: 900rpx;"></image>
 				</view>
 			</view>
 		</view>
@@ -99,7 +97,7 @@
 			<view class="layer attr-content" @click.stop="stopPrevent">
 				<view class="a-t">
 					<image
-						src="https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg">
+						:src="arr1.imageUrl">
 					</image>
 					<view class="right">
 						<text class="price">¥328.00</text>
@@ -126,7 +124,7 @@
 			</view>
 		</view>
 		<!-- 分享 -->
-		<share ref="share" :contentHeight="580" :shareList="shareList"></share>
+		<share ref="share" :contentHeight="580" :shareList="shareList">		</share>
 	</view>
 </template>
 
@@ -570,7 +568,7 @@
 	/*  详情 */
 	.detail-desc {
 		width: 750rpx;
-
+		padding: 15px;
 		.xinxi {
 			width: 700rpx;
 			padding: 10px;
@@ -599,7 +597,7 @@
 		}
 
 		.details>img {
-			width: 700rpx;
+			width: 750rpx;
 		}
 	}
 
