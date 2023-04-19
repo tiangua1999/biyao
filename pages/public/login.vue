@@ -102,10 +102,11 @@
 				// const result = await this.$api.json('userInfo');
 				// console.log(result);
 				if(res.data.code== 1){
+					this.$api.msg('登录成功');
 					this.login(res.data);
                     uni.navigateBack();  
 				}else{
-					
+					this.$api.msg('登录失败');
 					this.logining = false;
 				}
 			}

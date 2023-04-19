@@ -218,6 +218,11 @@
 				console.log(data);
 				let res = await getadd(data)
 				console.log(res);
+				if(res.data.code==1){
+					this.$api.msg('添加成功');
+				}else{
+					this.$api.msg('添加失败');
+				}
 			},
 			//规格弹窗开关
 			toggleSpec() {

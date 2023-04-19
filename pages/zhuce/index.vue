@@ -93,9 +93,13 @@
 				let res = await getregister(sendData)
 				console.log(res);
 				if(res.data.code==1){
+					this.$api.msg('注册成功');
 					uni.navigateTo({
+						
 						url:'/pages/public/login'
 					})
+				}else{
+					this.$api.msg('注册失败');
 				}
 			}
 		},

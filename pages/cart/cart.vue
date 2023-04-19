@@ -21,13 +21,7 @@
 						:class="{'b-b': index!==cartList.length-1}"
 					>
 						<view class="image-wrapper">
-							<image :src="item.imageUrl" 
-								:class="[item.loaded]"
-								mode="aspectFill" 
-								lazy-load 
-								@load="onImageLoad('cartList', index)" 
-								@error="onImageError('cartList', index)"
-							></image>
+							<img style="width: 115px;height: 115px;" :src="item.imageUrl" alt="">
 							<view 
 								class="yticon icon-xuanzhong2 checkbox"
 								:class="{checked: item.checked}"
@@ -98,6 +92,9 @@
 			};
 		},
 		onLoad(){
+			this.loadData();
+		},
+		onShow() {
 			this.loadData();
 		},
 		watch:{
@@ -172,6 +169,9 @@
 				}
 				let res = await getdel(data)
 				console.log(res);
+				if(res.data.code==1){
+					this.$api.msg('删除成功')
+				}
 
 				this.cartList.splice(index, 1);
 				this.calcTotal();
